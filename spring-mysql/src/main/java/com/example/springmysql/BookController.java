@@ -1,0 +1,22 @@
+package com.example.springmysql;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BookController {
+
+    private BookRepository bookRepository;
+
+    public BookController(BookRepository repository) {
+        this.bookRepository = repository;
+    }
+
+    @GetMapping("/books")
+    public List<Book> allBooks() {
+        return bookRepository.findAll();
+    }
+
+}
