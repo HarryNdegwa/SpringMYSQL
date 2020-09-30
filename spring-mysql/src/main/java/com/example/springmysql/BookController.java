@@ -2,6 +2,8 @@ package com.example.springmysql;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +32,7 @@ public class BookController {
 
     @PutMapping("/books/{id}")
     public Book updateBook(@RequestBody Book bookDetails, @PathVariable Long id) {
-        Book updatingBook = bookRepository.findById(id).orElseThrow(() -> BookNotFoundException(id));
+        Book updatingBook = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
 
         updatingBook.setName(bookDetails.getName());
         updatingBook.setAuthor(bookDetails.getAuthor());
@@ -38,6 +40,13 @@ public class BookController {
 
         return bookRepository.save(updatingBook);
 
+    }
+
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable Long id) {
+        bookRepository.deleteById(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
