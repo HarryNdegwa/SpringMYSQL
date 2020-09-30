@@ -42,6 +42,12 @@ public class BookController {
 
     }
 
+    @GetMapping("/books/{id}")
+    public Book getBook(@PathVariable Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        return book;
+    }
+
     @DeleteMapping("/books/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         bookRepository.deleteById(id);
